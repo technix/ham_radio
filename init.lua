@@ -29,6 +29,7 @@ function ham_radio.delete_transmitter(frequency)
   mod_storage:set_string(tostring(frequency), nil)
 end
 
+dofile(modpath.."/craft.lua")
 dofile(modpath.."/transmitter.lua")
 dofile(modpath.."/receiver.lua") 
 dofile(modpath.."/hud.lua")

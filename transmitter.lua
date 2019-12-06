@@ -1,13 +1,4 @@
 
-minetest.register_craft({
-  output = "ham_radio:transmitter",
-  recipe = {
-    {"default:glass"},
-    {"default:mese"},
-    {"default:steel_ingot"},
-  }
-})
-
 minetest.register_node("ham_radio:transmitter", {
   description = "Ham Radio Transmitter",
   tiles = {"ham_radio_transmitter_top.png", "ham_radio_transmitter.png"},

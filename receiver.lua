@@ -32,14 +32,6 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
   return true
 end)
 
-minetest.register_craft({
-  output = "ham_radio:receiver",
-  recipe = {
-    {"default:glass"},
-    {"default:steel_ingot"},
-    {"default:glass"},
-  }
-})
 
 function ham_radio:locate_transmitter(player, transmitter_pos)
   local player_pos = player:get_pos()
