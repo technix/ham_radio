@@ -17,7 +17,7 @@ function ham_radio.toggle_hud(player)
 
   -- if hud is already enabled, pass
   if ham_radio.is_receiver_wielded[name] then
-	return true
+	  return true
   end
 
   -- create hud
@@ -70,15 +70,20 @@ function ham_radio:update_hud_display(player)
     return
   end
 
-  local transmitter_signal = 0
+  local signal_power = 0
   local name = player:get_player_name()
   local meta = player:get_wielded_item():get_meta()
   local frequency = meta:get_string("frequency")
   
   if frequency ~= nil and frequency ~= "" then
-    local transmitter = self.read_transmitter(frequency)
-    if transmitter.pos then
-      transmitter_signal = self:locate_transmitter(player, transmitter.pos)
+    local transmitters = self.read_transmitters(frequency)
+    
+    for key, transmitter in pairs(transmitters) do
+      local transmitter_signal = self:locate_transmitter(player, transmitter.pos)
+      if transmitter_signal > signal_power then
+        -- use max power from transmitters nearby
+        signal_power = transmitter_signal
+      end
     end
   end
   local text = "FQ "..tostring(meta:get_string("frequency"))
@@ -86,7 +91,7 @@ function ham_radio:update_hud_display(player)
   player:hud_change(
     self.playerhuds[name].signal_level,
     "scale",
-    { x = transmitter_signal/50 or 0.1, y = 1 } -- x scale should be 0-2
+    { x = signal_power/50 or 0.1, y = 1 } -- x scale should be 0-2
   )
 end
 

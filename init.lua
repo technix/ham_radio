@@ -11,20 +11,35 @@ ham_radio = {
   }
 }
 
-function ham_radio.save_transmitter(frequency, transmitter_data)
-  mod_storage:set_string(tostring(frequency), minetest.write_json(transmitter_data))
+function ham_radio.save_transmitter(frequency, pos, transmitter_properties)
+  local transmitters = mod_storage:get_string(tostring(frequency))
+  local transmitter_list = {}
+  if transmitters ~= "" then
+    transmitter_list = minetest.parse_json(transmitters)
+  end
+  transmitter_list[minetest.pos_to_string(pos, 0)] = transmitter_properties
+  mod_storage:set_string(tostring(frequency), minetest.write_json(transmitter_list))
 end
 
-function ham_radio.read_transmitter(frequency)
-  local transmitter_data = mod_storage:get_string(tostring(frequency))
-  if transmitter_data ~= nil and transmitter_data ~= "" then
-    return minetest.parse_json(transmitter_data)
+function ham_radio.read_transmitters(frequency)
+  local transmitters = mod_storage:get_string(tostring(frequency))
+  if transmitters ~= "" then
+    return minetest.parse_json(transmitters)
   end
   return {}
 end
 
-function ham_radio.delete_transmitter(frequency)
-  mod_storage:set_string(tostring(frequency), nil)
+function ham_radio.delete_transmitter(frequency, pos)
+  local transmitters = mod_storage:get_string(tostring(frequency))
+  if transmitters ~= "" then
+    local transmitter_list = minetest.parse_json(transmitters)
+    transmitter_list[minetest.pos_to_string(pos, 0)] = nil
+    if next(transmitter_list) == nil then
+      mod_storage:set_string(tostring(frequency),"")
+    else
+      mod_storage:set_string(tostring(frequency), minetest.write_json(transmitter_list))
+    end
+  end
 end
 
 dofile(modpath.."/craft.lua")

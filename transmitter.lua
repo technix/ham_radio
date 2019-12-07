@@ -23,6 +23,11 @@ minetest.register_node("ham_radio:transmitter", {
     )
     meta:set_string("infotext", '')
   end,
+  after_place_node = function(pos, placer)
+    local meta = minetest.get_meta(pos);
+    local name = placer:get_player_name()
+    meta:set_string('operated_by', name)
+  end,
   on_receive_fields = function(pos, formname, fields, sender)
     if fields.quit ~= "true" then
       return
@@ -31,10 +36,15 @@ minetest.register_node("ham_radio:transmitter", {
       local meta = minetest.get_meta(pos)
       meta:set_string("frequency", fields.frequency)
       meta:set_string("infotext", 'Frequency: '..fields.frequency)
-      ham_radio.save_transmitter(fields.frequency, {
-        pos = pos,
-        broadcast_message = "Test Ham Radio Broadcast!"
-      })
+      ham_radio.save_transmitter(
+        fields.frequency,
+        pos,
+        {
+          pos = pos,
+          broadcast_message = "Test Ham Radio Broadcast!",
+          operated_by = meta:get_string('operated_by')
+        }
+      )
     end
   end,
   can_dig = function(pos,player)
@@ -44,6 +54,6 @@ minetest.register_node("ham_radio:transmitter", {
     return inv:is_empty("main") and not minetest.is_protected(pos, name)
   end,
   after_dig_node = function(pos, oldnode, oldmetadata, player)
-    ham_radio.delete_transmitter(oldmetadata.fields.frequency)
+    ham_radio.delete_transmitter(oldmetadata.fields.frequency, pos)
   end
 });
