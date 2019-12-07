@@ -15,7 +15,8 @@ ham_radio = {
     frequency = {
       min = 0,
       max = 9999999
-    }
+    },
+    digiline_channel = "ham_radio",
   }
 }
 
@@ -44,6 +45,7 @@ end
 
 dofile(modpath.."/helpers.lua")
 dofile(modpath.."/craft.lua")
+dofile(modpath.."/digiline.lua")
 dofile(modpath.."/transmitter.lua")
 dofile(modpath.."/receiver.lua")
 dofile(modpath.."/broadcast.lua")

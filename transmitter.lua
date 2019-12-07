@@ -71,5 +71,12 @@ minetest.register_node("ham_radio:transmitter", {
   end,
   after_dig_node = function(pos, oldnode, oldmetadata, player)
     ham_radio.delete_transmitter(pos)
-  end
+  end,
+  -- digiline
+  digiline = {
+    receptor = {action = function() end},
+    effector = {
+            action = ham_radio.digiline_effector
+    },
+  },
 });
