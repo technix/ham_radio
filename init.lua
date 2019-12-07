@@ -5,11 +5,9 @@ ham_radio = rawget(_G, "ham_radio") or {}
 
 ham_radio = {
   playerhuds = {},
-  playerlocators = {},
+  is_receiver_wielded = {},
   settings = {
-    hud_pos = { x = 0.45, y = 0.7 },
-    hud_offset = { x = 15, y = 15 },
-    hud_alignment = { x = 1, y = 0 }
+    hud_pos = { x = 0.5, y = 0.8 },
   }
 }
 
