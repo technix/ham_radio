@@ -3,14 +3,15 @@ function ham_radio.toggle_hud(player)
   local name = player:get_player_name()
   local item = player:get_wielded_item()
   
-  -- remove hud if user does not wield a receiver
+  -- remove hud and broadcasts if user does not wield a receiver
   if item:get_name() ~= "ham_radio:receiver" then
     if ham_radio.is_receiver_wielded[name] then
-	  player:hud_remove(ham_radio.playerhuds[name].background)
-    player:hud_remove(ham_radio.playerhuds[name].frequency)
-	  player:hud_remove(ham_radio.playerhuds[name].signal_meter)
-	  player:hud_remove(ham_radio.playerhuds[name].signal_level)
-    ham_radio.is_receiver_wielded[name] = false
+      player:hud_remove(ham_radio.playerhuds[name].background)
+      player:hud_remove(ham_radio.playerhuds[name].frequency)
+      player:hud_remove(ham_radio.playerhuds[name].signal_meter)
+      player:hud_remove(ham_radio.playerhuds[name].signal_level)
+      ham_radio.is_receiver_wielded[name] = false
+      ham_radio.player_broadcasts[name] = nil
     end
     return false
   end
@@ -93,23 +94,3 @@ function ham_radio:update_hud_display(player)
     { x = signal_power/50 or 0.1, y = 1 } -- x scale should be 0-2
   )
 end
-
-minetest.register_on_newplayer(ham_radio.toggle_hud)
-minetest.register_on_joinplayer(ham_radio.toggle_hud)
-
-minetest.register_on_leaveplayer(function(player)
-  ham_radio.is_receiver_wielded[name] = false
-  ham_radio.playerhuds[player:get_player_name()] = nil
-end)
-
-local updatetimer = 0
-minetest.register_globalstep(function(dtime)
-  updatetimer = updatetimer + dtime
-  if updatetimer > 0.1 then
-    local players = minetest.get_connected_players()
-    for i=1, #players do
-      ham_radio:update_hud_display(players[i])
-    end
-    updatetimer = updatetimer - dtime
-  end
-end)

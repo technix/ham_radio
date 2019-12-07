@@ -34,7 +34,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
   local item = player:get_wielded_item()
   local meta = item:get_meta()
   meta:set_string("frequency", fields.frequency)
-  player:set_wielded_item(item) -- replace wielded item with new metadata
+   -- replace wielded item with new metadata
+  player:set_wielded_item(item)
+   -- reset broadcast messages
+  ham_radio.player_broadcasts[player:get_player_name()] = nil
   return true
 end)
 
