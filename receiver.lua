@@ -38,18 +38,23 @@ function ham_radio:locate_transmitter(player, transmitter_pos)
   local player_look_vector = player:get_look_dir()
   local player_direction = vector.add(player_pos, player_look_vector)
 
-  local distance = vector.distance(player_pos, transmitter_pos)
+  local coeff = 0.9
+  local distance_to_target = 0
 
-  -- local distance_to_target = 13 - math.floor(math.log(distance*30))
-  local distance_to_target = 24 - math.floor(2 * math.log(distance*10))
+  local distance = vector.distance(player_pos, transmitter_pos)
+  if distance < 3 then
+    distance_to_target = 100
+    coeff = 0.99
+  else
+    distance_to_target = -0.0000000001*math.pow(distance,3)+0.00000145*math.pow(distance,2)-0.03*distance+100
+    if distance_to_target < 3 then
+      distance_to_target = 3
+    end
+  end
 
   local distance2 = vector.distance(player_direction, transmitter_pos)
-  local signal_power = 1 - ((1 + distance2 - distance) / 2)
+  local signal_power = distance - distance2;
 
-  return math.floor(distance_to_target * signal_power);
-
-  --return {
-  --   distance = distance_to_target,
-  --   signal = signal_power
-  -- }
+  -- 0-100
+  return distance_to_target * coeff + distance_to_target * (1 - coeff) * signal_power;
 end
