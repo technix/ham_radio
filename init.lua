@@ -6,27 +6,27 @@ ham_radio = rawget(_G, "ham_radio") or {}
 ham_radio = {
   playerhuds = {},
   is_receiver_wielded = {},
+  transmitters = {},
   settings = {
     hud_pos = { x = 0.5, y = 0.8 },
   }
 }
 
-function ham_radio.save_transmitter(pos, transmitter_properties)
-  mod_storage:set_string(
-    minetest.pos_to_string(pos, 0),
-    minetest.write_json(transmitter_properties)
-  )
+-- preload transmitter data
+local all_transmitters = mod_storage:to_table().fields
+for key, transmitter_data in pairs(all_transmitters) do
+  ham_radio.transmitters[key] = minetest.parse_json(transmitter_data)
 end
 
-function ham_radio.read_transmitter(pos)
-  return mod_storage:get_string(minetest.pos_to_string(pos, 0))
+function ham_radio.save_transmitter(pos, transmitter_properties)
+  local key = minetest.pos_to_string(pos, 0)
+  ham_radio.transmitters[key] = transmitter_properties -- cache
+  mod_storage:set_string(key, minetest.write_json(transmitter_properties)) -- storage
 end
 
 function ham_radio.find_transmitters(frequency)
   local transmitter_list = {}
-  local all_transmitters = mod_storage:to_table().fields
-  for key, transmitter_data in pairs(all_transmitters) do
-    local transmitter = minetest.parse_json(transmitter_data)
+  for key, transmitter in pairs(ham_radio.transmitters) do
     if transmitter.frequency == frequency then
       transmitter_list[key] = transmitter
     end
@@ -35,7 +35,9 @@ function ham_radio.find_transmitters(frequency)
 end
 
 function ham_radio.delete_transmitter(pos)
-  mod_storage:set_string(minetest.pos_to_string(pos, 0), '')
+  local key = minetest.pos_to_string(pos, 0)
+  ham_radio.transmitters[key] = nil -- cache
+  mod_storage:set_string(key, '') -- storage
 end
 
 dofile(modpath.."/craft.lua")
