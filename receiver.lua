@@ -10,9 +10,15 @@ minetest.register_tool("ham_radio:receiver", {
     local meta = itemstack:get_meta()
     local frequency = meta:get_string("frequency")
     minetest.show_formspec(user:get_player_name(), "ham_radio:configure_receiver",
-      "size[4,3]"..
-      "field[0.25,0.25;3,1;frequency;Frequency;"..tostring(frequency).."]"..
-      "button_exit[0.25,1.5;3,1;;Done]"
+      table.concat({
+        "size[3,4]",
+        "image[1,0;1,1;ham_radio_receiver_wield.png]",
+        "field[0.25,2;3,1;frequency;Frequency;",tostring(frequency),"]",
+        "tooltip[frequency;Integer number ",
+          ham_radio.settings.frequency.min,"-",
+          ham_radio.settings.frequency.max, "]",
+        "button_exit[0,3.5;3,1;;Done]"
+      },'')
     )
     return itemstack
   end,
