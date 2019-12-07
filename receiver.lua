@@ -22,7 +22,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
   if formname ~= "ham_radio:configure_receiver" or not minetest.is_player(player) then
     return false
   end
-  if fields.frequency == "" or fields.frequency == nil then
+  if not ham_radio.validate_frequency(fields.frequency) then
     return false
   end
   local item = player:get_wielded_item()

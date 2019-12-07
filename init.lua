@@ -9,6 +9,10 @@ ham_radio = {
   transmitters = {},
   settings = {
     hud_pos = { x = 0.5, y = 0.8 },
+    frequency = {
+      min = 0,
+      max = 1000000
+    }
   }
 }
 
@@ -40,6 +44,7 @@ function ham_radio.delete_transmitter(pos)
   mod_storage:set_string(key, '') -- storage
 end
 
+dofile(modpath.."/helpers.lua")
 dofile(modpath.."/craft.lua")
 dofile(modpath.."/transmitter.lua")
 dofile(modpath.."/receiver.lua") 

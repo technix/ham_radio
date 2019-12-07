@@ -2,12 +2,12 @@
 minetest.register_node("ham_radio:transmitter", {
   description = "Ham Radio Transmitter",
   tiles = {
-	"ham_radio_transmitter_top.png",
-	"ham_radio_transmitter_top.png",
-	"ham_radio_transmitter_side.png",
-	"ham_radio_transmitter_side.png",
-	"ham_radio_transmitter_side.png",
-	"ham_radio_transmitter_front.png"
+	  "ham_radio_transmitter_top.png",
+	  "ham_radio_transmitter_top.png",
+	  "ham_radio_transmitter_side.png",
+	  "ham_radio_transmitter_side.png",
+	  "ham_radio_transmitter_side.png",
+	  "ham_radio_transmitter_front.png"
   },
   groups = {cracky=2,oddly_breakable_by_hand=2},
   sounds = default.node_sound_metal_defaults(),
@@ -32,7 +32,7 @@ minetest.register_node("ham_radio:transmitter", {
     if fields.quit ~= "true" then
       return
     end
-    if fields.frequency ~= nil and fields.frequency ~= '' then
+    if ham_radio.validate_frequency(fields.frequency) then
       local meta = minetest.get_meta(pos)
       meta:set_string("frequency", fields.frequency)
       meta:set_string("infotext", 'Frequency: '..fields.frequency)
