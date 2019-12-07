@@ -13,38 +13,54 @@ minetest.register_node("ham_radio:transmitter", {
   sounds = default.node_sound_metal_defaults(),
   paramtype2 = "facedir",
   light_source = 5,
-  on_construct = function(pos)
-    local meta = minetest.get_meta(pos)
-    meta:set_string(
-      "formspec", 
-      "size[6,8]"..
-      "field[0.25,0.25;3,1;frequency;Frequency;${frequency}]"..
-      "button_exit[1.5,7.5;3,1;;Done]"
-    )
-    meta:set_string("infotext", '')
-  end,
   after_place_node = function(pos, placer)
     local meta = minetest.get_meta(pos);
     local name = placer:get_player_name()
     meta:set_string('operated_by', name)
+    meta:set_string('broadcast_message', "")
+    meta:set_string("formspec",
+      table.concat({
+        "size[7,5]",
+        "image[0,0;1,1;ham_radio_transmitter_front.png]",
+        "label[1,0;Transmitter operated by: ",minetest.formspec_escape(name),"]",
+        "field[0.25,2;7,1;frequency;Frequency;${frequency}]",
+        "tooltip[frequency;Integer number ",
+          ham_radio.settings.frequency.min,"-",
+          ham_radio.settings.frequency.max, "]",
+        "field[0.25,3.5;7,1;broadcast_message;Broadcast message;${broadcast_message}]",
+        "button_exit[2,4.5;3,1;;Done]"
+      },'')
+    )
+    meta:set_string("infotext", '')
   end,
   on_receive_fields = function(pos, formname, fields, sender)
-    if fields.quit ~= "true" then
+    if (
+      fields.quit ~= "true"
+      or minetest.is_protected(pos, name) 
+      or not ham_radio.validate_frequency(fields.frequency)
+    ) then
       return
     end
-    if ham_radio.validate_frequency(fields.frequency) then
-      local meta = minetest.get_meta(pos)
-      meta:set_string("frequency", fields.frequency)
-      meta:set_string("infotext", 'Frequency: '..fields.frequency)
-      ham_radio.save_transmitter(
-        pos,
-        {
-          frequency = fields.frequency,
-          broadcast_message = "Test Ham Radio Broadcast!",
-          operated_by = meta:get_string('operated_by')
-        }
-      )
+
+    local meta = minetest.get_meta(pos)
+    local broadcast_message = fields.broadcast_message
+    local infotext = {'Frequency: ',fields.frequency}
+    if broadcast_message ~= "" then
+      table.insert(infotext, '\nBroadcast: "')
+      table.insert(infotext, broadcast_message)
+      table.insert(infotext, '"')
     end
+    meta:set_string("frequency", fields.frequency)
+    meta:set_string("broadcast_message", broadcast_message)
+    meta:set_string("infotext", table.concat(infotext, ''))
+    ham_radio.save_transmitter(
+      pos,
+      {
+        frequency = fields.frequency,
+        broadcast_message = broadcast_message,
+        operated_by = meta:get_string('operated_by')
+      }
+    )
   end,
   can_dig = function(pos,player)
     local meta = minetest.get_meta(pos);

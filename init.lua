@@ -11,7 +11,7 @@ ham_radio = {
     hud_pos = { x = 0.5, y = 0.8 },
     frequency = {
       min = 0,
-      max = 1000000
+      max = 9999999
     }
   }
 }
