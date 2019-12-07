@@ -1,4 +1,15 @@
 
+ham_radio.transmitter_update_infotext = function(meta)
+  local infotext = {'Frequency: ', meta:get_string("frequency")}
+  local broadcast_message = meta:get_string("broadcast_message")
+  if broadcast_message ~= "" then
+    table.insert(infotext, '\nBroadcast: "')
+    table.insert(infotext, broadcast_message)
+    table.insert(infotext, '"')
+  end
+  meta:set_string("infotext", table.concat(infotext, ''))
+end
+
 minetest.register_node("ham_radio:transmitter", {
   description = "Ham Radio Transmitter",
   tiles = {
@@ -47,24 +58,10 @@ minetest.register_node("ham_radio:transmitter", {
     end
 
     local meta = minetest.get_meta(pos)
-    local broadcast_message = fields.broadcast_message
-    local infotext = {'Frequency: ',fields.frequency}
-    if broadcast_message ~= "" then
-      table.insert(infotext, '\nBroadcast: "')
-      table.insert(infotext, broadcast_message)
-      table.insert(infotext, '"')
-    end
     meta:set_string("frequency", fields.frequency)
-    meta:set_string("broadcast_message", broadcast_message)
-    meta:set_string("infotext", table.concat(infotext, ''))
-    ham_radio.save_transmitter(
-      pos,
-      {
-        frequency = fields.frequency,
-        broadcast_message = broadcast_message,
-        operated_by = meta:get_string('operated_by')
-      }
-    )
+    meta:set_string("broadcast_message", fields.broadcast_message)
+    ham_radio.transmitter_update_infotext(meta)
+    ham_radio.save_transmitter(pos, meta)
   end,
   can_dig = function(pos,player)
     local meta = minetest.get_meta(pos);

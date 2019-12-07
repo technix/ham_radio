@@ -25,7 +25,12 @@ for key, transmitter_data in pairs(all_transmitters) do
   ham_radio.transmitters[key] = minetest.parse_json(transmitter_data)
 end
 
-function ham_radio.save_transmitter(pos, transmitter_properties)
+function ham_radio.save_transmitter(pos, meta)
+  local transmitter_properties = {
+    frequency = meta:get_string("frequency"),
+    broadcast_message = meta:get_string("broadcast_message"),
+    operated_by = meta:get_string("operated_by")
+  }
   local key = minetest.pos_to_string(pos, 0)
   ham_radio.transmitters[key] = transmitter_properties -- cache
   mod_storage:set_string(key, minetest.write_json(transmitter_properties)) -- storage
