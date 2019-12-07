@@ -31,16 +31,6 @@ function ham_radio.save_transmitter(pos, transmitter_properties)
   mod_storage:set_string(key, minetest.write_json(transmitter_properties)) -- storage
 end
 
-function ham_radio.find_transmitters(frequency)
-  local transmitter_list = {}
-  for key, transmitter in pairs(ham_radio.transmitters) do
-    if transmitter.frequency == frequency then
-      transmitter_list[key] = transmitter
-    end
-  end
-  return transmitter_list
-end
-
 function ham_radio.delete_transmitter(pos)
   local key = minetest.pos_to_string(pos, 0)
   ham_radio.transmitters[key] = nil -- cache
