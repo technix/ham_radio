@@ -1,9 +1,17 @@
 
 minetest.register_node("ham_radio:transmitter", {
   description = "Ham Radio Transmitter",
-  tiles = {"ham_radio_transmitter_top.png", "ham_radio_transmitter.png"},
+  tiles = {
+	"ham_radio_transmitter_top.png",
+	"ham_radio_transmitter_top.png",
+	"ham_radio_transmitter_side.png",
+	"ham_radio_transmitter_side.png",
+	"ham_radio_transmitter_side.png",
+	"ham_radio_transmitter_front.png"
+  },
   groups = {cracky=2,oddly_breakable_by_hand=2},
   sounds = default.node_sound_metal_defaults(),
+  paramtype2 = "facedir",
   light_source = 5,
   on_construct = function(pos)
     local meta = minetest.get_meta(pos)
