@@ -28,9 +28,8 @@ minetest.register_craftitem("ham_radio:circuit", {
 minetest.register_craft({
   output = "ham_radio:circuit",
   recipe = {
-    {'', circuit, ''},
-    {body, wires, body},
-    {'', battery, ''},
+    {circuit, wires, circuit},
+    {body, battery, body},
   }
 })
 
