@@ -34,9 +34,13 @@ minetest.register_node("ham_radio:transmitter", {
     meta:set_string("infotext", '')
   end,
   on_receive_fields = function(pos, formname, fields, sender)
+    if not minetest.is_player(sender) then
+      return
+    end
+
     if (
       fields.quit ~= "true"
-      or minetest.is_protected(pos, name) 
+      or minetest.is_protected(pos, sender:get_player_name()) 
       or not ham_radio.validate_frequency(fields.frequency)
     ) then
       return
