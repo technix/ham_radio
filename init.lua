@@ -11,35 +11,31 @@ ham_radio = {
   }
 }
 
-function ham_radio.save_transmitter(frequency, pos, transmitter_properties)
-  local transmitters = mod_storage:get_string(tostring(frequency))
+function ham_radio.save_transmitter(pos, transmitter_properties)
+  mod_storage:set_string(
+    minetest.pos_to_string(pos, 0),
+    minetest.write_json(transmitter_properties)
+  )
+end
+
+function ham_radio.read_transmitter(pos)
+  return mod_storage:get_string(minetest.pos_to_string(pos, 0))
+end
+
+function ham_radio.find_transmitters(frequency)
   local transmitter_list = {}
-  if transmitters ~= "" then
-    transmitter_list = minetest.parse_json(transmitters)
-  end
-  transmitter_list[minetest.pos_to_string(pos, 0)] = transmitter_properties
-  mod_storage:set_string(tostring(frequency), minetest.write_json(transmitter_list))
-end
-
-function ham_radio.read_transmitters(frequency)
-  local transmitters = mod_storage:get_string(tostring(frequency))
-  if transmitters ~= "" then
-    return minetest.parse_json(transmitters)
-  end
-  return {}
-end
-
-function ham_radio.delete_transmitter(frequency, pos)
-  local transmitters = mod_storage:get_string(tostring(frequency))
-  if transmitters ~= "" then
-    local transmitter_list = minetest.parse_json(transmitters)
-    transmitter_list[minetest.pos_to_string(pos, 0)] = nil
-    if next(transmitter_list) == nil then
-      mod_storage:set_string(tostring(frequency),"")
-    else
-      mod_storage:set_string(tostring(frequency), minetest.write_json(transmitter_list))
+  local all_transmitters = mod_storage:to_table().fields
+  for key, transmitter_data in pairs(all_transmitters) do
+    local transmitter = minetest.parse_json(transmitter_data)
+    if transmitter.frequency == frequency then
+      transmitter_list[key] = transmitter
     end
   end
+  return transmitter_list
+end
+
+function ham_radio.delete_transmitter(pos)
+  mod_storage:set_string(minetest.pos_to_string(pos, 0), '')
 end
 
 dofile(modpath.."/craft.lua")

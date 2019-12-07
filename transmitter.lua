@@ -37,10 +37,9 @@ minetest.register_node("ham_radio:transmitter", {
       meta:set_string("frequency", fields.frequency)
       meta:set_string("infotext", 'Frequency: '..fields.frequency)
       ham_radio.save_transmitter(
-        fields.frequency,
         pos,
         {
-          pos = pos,
+          frequency = fields.frequency,
           broadcast_message = "Test Ham Radio Broadcast!",
           operated_by = meta:get_string('operated_by')
         }
@@ -54,6 +53,6 @@ minetest.register_node("ham_radio:transmitter", {
     return inv:is_empty("main") and not minetest.is_protected(pos, name)
   end,
   after_dig_node = function(pos, oldnode, oldmetadata, player)
-    ham_radio.delete_transmitter(oldmetadata.fields.frequency, pos)
+    ham_radio.delete_transmitter(pos)
   end
 });

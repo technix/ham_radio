@@ -74,12 +74,11 @@ function ham_radio:update_hud_display(player)
   local name = player:get_player_name()
   local meta = player:get_wielded_item():get_meta()
   local frequency = meta:get_string("frequency")
-  
+
   if frequency ~= nil and frequency ~= "" then
-    local transmitters = self.read_transmitters(frequency)
-    
-    for key, transmitter in pairs(transmitters) do
-      local transmitter_signal = self:locate_transmitter(player, transmitter.pos)
+    local transmitters = self.find_transmitters(frequency)
+    for position, transmitter in pairs(transmitters) do
+      local transmitter_signal = self:locate_transmitter(player, minetest.string_to_pos(position))
       if transmitter_signal > signal_power then
         -- use max power from transmitters nearby
         signal_power = transmitter_signal
