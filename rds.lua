@@ -2,7 +2,7 @@ function ham_radio.get_rds_messages(frequency)
   local transmitters = ham_radio.find_transmitters(frequency)
   local rds_messages = {}
   for position, transmitter in pairs(transmitters) do
-    if transmitter.rds_message ~= "" then
+    if transmitter.rds_message ~= "" and transmitter.rds_message ~= nil then
       -- construct message
       local message = table.concat({
         '[ Radio | ',
