@@ -3,6 +3,7 @@ minetest.register_tool("ham_radio:handheld_receiver", {
   wield_image = "ham_radio_receiver_handheld.png",
   inventory_image = "ham_radio_receiver_handheld.png",
   groups = { disable_repair = 1 },
+  -- left click - change frequency
   on_use = function(itemstack, user, pointed_thing)
     local meta = itemstack:get_meta()
     local frequency = meta:get_string("frequency")
@@ -19,6 +20,17 @@ minetest.register_tool("ham_radio:handheld_receiver", {
     )
     return itemstack
   end,
+  -- right click - RDS on/off
+  on_secondary_use = function(itemstack, user, pointed_thing)
+    local meta = itemstack:get_meta()
+    local is_broadcast_disabled = meta:get_string("broadcast_disabled")
+    if is_broadcast_disabled == "" then
+      meta:set_string("broadcast_disabled", "true")
+    else
+      meta:set_string("broadcast_disabled", "")
+    end
+    return itemstack
+  end
 })
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)

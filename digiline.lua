@@ -38,7 +38,7 @@ ham_radio.digiline_effector = function(pos, _, channel, msg)
       ham_radio.save_transmitter(pos, meta)  
     end
 
-  elseif msg.command == "broadcast" or msg.command == "message" or msg.command == "broadcast_message" then
+  elseif msg.command == "rds" or msg.command == "message" or msg.command == "rds_message" then
     meta:set_string("broadcast_message", msg.value)
     ham_radio.transmitter_update_infotext(meta)
     ham_radio.save_transmitter(pos, meta)  

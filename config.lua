@@ -22,5 +22,5 @@ ham_radio.settings = {
   },
   -- digiline config
   digiline_channel = "ham_radio",
-  digiline_broadcast_channel = "ham_radio_broadcast",
+  digiline_broadcast_channel = "ham_radio_rds",
 }

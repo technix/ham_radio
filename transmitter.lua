@@ -43,7 +43,7 @@ minetest.register_node("ham_radio:transmitter", {
         "tooltip[frequency;Integer number ",
           ham_radio.settings.frequency.min,"-",
           ham_radio.settings.frequency.max, "]",
-        "field[0.25,3.5;7,1;broadcast_message;Broadcast message;${broadcast_message}]",
+        "field[0.25,3.5;7,1;broadcast_message;RDS message;${broadcast_message}]",
         "button_exit[2,4.5;3,1;;Done]"
       },'')
     )

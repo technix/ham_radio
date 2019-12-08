@@ -5,7 +5,7 @@ function ham_radio.get_broadcast_messages(frequency)
     if transmitter.broadcast_message ~= "" then
       -- construct message
       local message = table.concat({
-        '[ Radio Broadcast: ',
+        '[ Radio | ',
         transmitter.operated_by,
         ' ] ',
         transmitter.broadcast_message,
@@ -25,7 +25,19 @@ function ham_radio:update_broadcast(player)
     return
   end
 
-  local frequency = item:get_meta():get_string("frequency")
+  local meta = item:get_meta()
+  local frequency = meta:get_string("frequency")
+  local broadcast_disabled = meta:get_string("broadcast_disabled")
+
+  if frequency == "" then
+    return
+  end
+
+  if broadcast_disabled == "true" then
+    -- disabled receiving broadcast messages
+    ham_radio.player_broadcasts[name] = nil
+    return
+  end
 
   if ham_radio.player_broadcasts[name] == nil then
     ham_radio.player_broadcasts[name] = ham_radio.get_broadcast_messages(frequency)

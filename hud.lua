@@ -39,12 +39,21 @@ function ham_radio.toggle_hud(player)
       hud_elem_type = "text",
       text = "",
       position  = hud_pos,
-      offset    = { x = 0, y = 5 },
-      alignment = 0,
-      number = 0xFFFFFF,
+      offset    = { x = -220, y = 5 },
+      alignment = { x = 1, y = 0},
+      number = 0x999999,
       scale= { x = 100, y = 20 },
     }),
-	signal_meter = player:hud_add({
+    broadcast = player:hud_add({
+      hud_elem_type = "text",
+      text = "",
+      position  = hud_pos,
+      offset    = { x = 220, y = 5 },
+      alignment = { x = -1, y = 0},
+      number = 0x999999,
+      scale= { x = 100, y = 20 },
+    }),
+	  signal_meter = player:hud_add({
       hud_elem_type = "image",
       position  = hud_pos,
       offset    = { x = -220, y = 35 },
@@ -52,8 +61,8 @@ function ham_radio.toggle_hud(player)
       scale     = { x = 2, y = 1 },
       alignment = { x = 1, y = 0 },
     }),
-	signal_level = player:hud_add({
-	  hud_elem_type = "image",
+	  signal_level = player:hud_add({
+	    hud_elem_type = "image",
       position  = hud_pos,
       offset    = { x = -220, y = 35 },
       text      = "ham_radio_hud_indicator_full.png",
@@ -86,8 +95,23 @@ function ham_radio:update_hud_display(player)
       end
     end
   end
-  local text = "FQ "..tostring(meta:get_string("frequency"))
-  player:hud_change(self.playerhuds[name].frequency, "text", text)
+
+  if frequency == "" then
+    player:hud_change(self.playerhuds[name].frequency, "text", "FQ ---")
+    player:hud_change(self.playerhuds[name].frequency, "number", "0x999999")
+  else
+    player:hud_change(self.playerhuds[name].frequency, "text", "FQ "..frequency)
+    player:hud_change(self.playerhuds[name].frequency, "number", "0xFCAD00")
+  end
+
+  if meta:get_string("broadcast_disabled") == "" then
+    player:hud_change(self.playerhuds[name].broadcast, "text", "RDS ON")
+    player:hud_change(self.playerhuds[name].broadcast, "number", "0xFCAD00")
+  else
+    player:hud_change(self.playerhuds[name].broadcast, "text", "RDS off")
+    player:hud_change(self.playerhuds[name].broadcast, "number", "0x999999")
+  end
+  
   player:hud_change(
     self.playerhuds[name].signal_level,
     "scale",
