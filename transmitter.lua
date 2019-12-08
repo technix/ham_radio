@@ -1,7 +1,12 @@
 
 ham_radio.transmitter_update_infotext = function(meta)
-  local infotext = {'Frequency: ', meta:get_string("frequency")}
+  local frequency = meta:get_string("frequency")
   local broadcast_message = meta:get_string("broadcast_message")
+  if frequency == "" then
+    frequency = "--"
+    broadcast_message = ""
+  end
+  local infotext = {'Frequency: ', frequency}
   if broadcast_message ~= "" then
     table.insert(infotext, '\nBroadcast: "')
     table.insert(infotext, broadcast_message)

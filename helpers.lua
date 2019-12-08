@@ -1,4 +1,7 @@
 function ham_radio.validate_frequency(frequency)
+  if frequency == "" then
+    return true -- empty frequency is allowed to disable transmitter/receiver
+  end
   local transmission_is_allowed = true
   local num_freq = tonumber(frequency)
   local freq = tostring(num_freq)
