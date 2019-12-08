@@ -86,12 +86,12 @@ minetest.register_globalstep(function(dtime)
       ham_radio:update_hud_display(players[i])
     end
     updatetimer = 0
-  end
-  if broadcasttimer > ham_radio.settings.broadcast_interval then
-    local players = minetest.get_connected_players()
-    for i=1, #players do
-      ham_radio:update_broadcast(players[i])
+    -- broadcast timer
+    if broadcasttimer > ham_radio.settings.broadcast_interval then
+      for i=1, #players do
+        ham_radio:update_broadcast(players[i])
+      end
+      broadcasttimer = 0
     end
-    broadcasttimer = 0
   end
 end)
