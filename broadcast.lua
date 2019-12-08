@@ -21,7 +21,7 @@ function ham_radio:update_broadcast(player)
   local name = player:get_player_name()
   local item = player:get_wielded_item()
 
-  if item:get_name() ~= "ham_radio:receiver" then
+  if item:get_name() ~= "ham_radio:handheld_receiver" then
     return
   end
 

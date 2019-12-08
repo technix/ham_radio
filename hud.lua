@@ -4,7 +4,7 @@ function ham_radio.toggle_hud(player)
   local item = player:get_wielded_item()
   
   -- remove hud and broadcasts if user does not wield a receiver
-  if item:get_name() ~= "ham_radio:receiver" then
+  if item:get_name() ~= "ham_radio:handheld_receiver" then
     if ham_radio.is_receiver_wielded[name] then
       player:hud_remove(ham_radio.playerhuds[name].background)
       player:hud_remove(ham_radio.playerhuds[name].frequency)

@@ -1,18 +1,18 @@
 -- 		minetest.chat_send_player(user:get_player_name(), "Itemstack"..meta:get_string("frequency").."^"..itemstack:get_name())
 
 
-minetest.register_tool("ham_radio:receiver", {
-  description = "Ham Radio Receiver",
-  wield_image = "ham_radio_receiver_wield.png",
-  inventory_image = "ham_radio_receiver_wield.png",
+minetest.register_tool("ham_radio:handheld_receiver", {
+  description = "Ham Radio Handheld Receiver",
+  wield_image = "ham_radio_receiver_handheld.png",
+  inventory_image = "ham_radio_receiver_handheld.png",
   groups = { disable_repair = 1 },
   on_use = function(itemstack, user, pointed_thing)
     local meta = itemstack:get_meta()
     local frequency = meta:get_string("frequency")
-    minetest.show_formspec(user:get_player_name(), "ham_radio:configure_receiver",
+    minetest.show_formspec(user:get_player_name(), "ham_radio:configure_handheld_receiver",
       table.concat({
         "size[3,4]",
-        "image[1,0;1,1;ham_radio_receiver_wield.png]",
+        "image[1,0;1,1;ham_radio_receiver_handheld.png]",
         "field[0.25,2;3,1;frequency;Frequency;",tostring(frequency),"]",
         "tooltip[frequency;Integer number ",
           ham_radio.settings.frequency.min,"-",
@@ -25,7 +25,7 @@ minetest.register_tool("ham_radio:receiver", {
 })
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-  if formname ~= "ham_radio:configure_receiver" or not minetest.is_player(player) then
+  if formname ~= "ham_radio:configure_handheld_receiver" or not minetest.is_player(player) then
     return false
   end
   if not ham_radio.validate_frequency(fields.frequency) then

@@ -35,7 +35,7 @@ minetest.register_craft({
 
 
 minetest.register_craft({
-  output = "ham_radio:receiver",
+  output = "ham_radio:handheld_receiver",
   recipe = {
     {'', antenna, ''},
     {'','ham_radio:circuit', ''},
