@@ -25,6 +25,7 @@ function ham_radio.toggle_hud(player)
   ham_radio.is_receiver_wielded[name] = true
 
   local hud_pos = ham_radio.settings.hud_pos
+  local hud_color = ham_radio.settings.hud_color
   
   ham_radio.playerhuds[name] = {
     background = player:hud_add({
@@ -41,7 +42,7 @@ function ham_radio.toggle_hud(player)
       position  = hud_pos,
       offset    = { x = -220, y = 5 },
       alignment = { x = 1, y = 0},
-      number = 0x999999,
+      number = hud_color.inactive,
       scale= { x = 100, y = 20 },
     }),
     rds = player:hud_add({
@@ -50,7 +51,7 @@ function ham_radio.toggle_hud(player)
       position  = hud_pos,
       offset    = { x = 220, y = 5 },
       alignment = { x = -1, y = 0},
-      number = 0x999999,
+      number = hud_color.inactive,
       scale= { x = 100, y = 20 },
     }),
 	  signal_meter = player:hud_add({
@@ -96,22 +97,29 @@ function ham_radio:update_hud_display(player)
     end
   end
 
-  if frequency == "" then
-    player:hud_change(self.playerhuds[name].frequency, "text", "FQ ---")
-    player:hud_change(self.playerhuds[name].frequency, "number", "0x999999")
-  else
-    player:hud_change(self.playerhuds[name].frequency, "text", "FQ "..frequency)
-    player:hud_change(self.playerhuds[name].frequency, "number", "0xFCAD00")
-  end
+  local hud_color = ham_radio.settings.hud_color
 
-  if meta:get_string("rds_disabled") == "" then
-    player:hud_change(self.playerhuds[name].rds, "text", "RDS ON")
-    player:hud_change(self.playerhuds[name].rds, "number", "0xFCAD00")
-  else
-    player:hud_change(self.playerhuds[name].rds, "text", "RDS off")
-    player:hud_change(self.playerhuds[name].rds, "number", "0x999999")
+  -- update frequency hud
+  local frequency_text = "FQ ---"
+  local frequency_color = hud_color.inactive
+  if frequency ~= "" then
+    frequency_text = "FQ "..frequency
+    frequency_color = hud_color.active
   end
+  player:hud_change(self.playerhuds[name].frequency, "text", frequency_text)
+  player:hud_change(self.playerhuds[name].frequency, "number", frequency_color)
+
+  -- update RDS hud
+  local rds_text = "RDS off"
+  local rds_color = hud_color.inactive
+  if meta:get_string("rds_disabled") == "" then
+    rds_text = "RDS ON"
+    rds_color = hud_color.active
+  end
+  player:hud_change(self.playerhuds[name].rds, "text", rds_text)
+  player:hud_change(self.playerhuds[name].rds, "number", rds_color)
   
+  -- update signal level hud
   player:hud_change(
     self.playerhuds[name].signal_level,
     "scale",

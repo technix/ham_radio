@@ -5,6 +5,11 @@ ham_radio.settings = {
   rds_interval = 10,
   -- receiver hud position
   hud_pos = { x = 0.5, y = 0.8 },
+  -- hud message color
+  hud_color = {
+    active = "0xFCAD00",
+    inactive = "0x999999"
+  },
   -- radio frequency range
   frequency = {
     min = 0,
