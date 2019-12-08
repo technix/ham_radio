@@ -66,18 +66,29 @@ minetest.register_node("ham_radio:transmitter", {
       return
     end
 
-    local is_frequency_valid = ham_radio.validate_frequency(fields.frequency)
-    if is_frequency_valid.result == false then
-      ham_radio.errormsg(sender, is_frequency_valid.message)
-      return
+    local meta = minetest.get_meta(pos)
+    local transmitter_is_updated = false
+
+    if fields.frequency ~= nil then
+      local is_frequency_valid = ham_radio.validate_frequency(fields.frequency)
+      if is_frequency_valid.result == false then
+        ham_radio.errormsg(sender, is_frequency_valid.message)
+      else
+        meta:set_string("frequency", fields.frequency)
+        transmitter_is_updated = true
+      end
     end
 
-    local meta = minetest.get_meta(pos)
-    meta:set_string("frequency", fields.frequency)
-    meta:set_string("rds_message", fields.rds_message)
-    ham_radio.transmitter_update_infotext(meta)
-    ham_radio.save_transmitter(pos, meta)
-    ham_radio.play_tuning_sound(sender)
+    if fields.rds_message ~= nil then
+      meta:set_string("rds_message", fields.rds_message)
+      transmitter_is_updated = true
+    end
+
+    if transmitter_is_updated then
+      ham_radio.transmitter_update_infotext(meta)
+      ham_radio.save_transmitter(pos, meta)
+      ham_radio.play_tuning_sound(sender)
+    end
   end,
   can_dig = function(pos,player)
     local meta = minetest.get_meta(pos);
