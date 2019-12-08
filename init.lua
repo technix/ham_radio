@@ -40,6 +40,10 @@ function ham_radio.play_tuning_sound(player)
   )
 end
 
+function ham_radio.errormsg(player, message)
+  minetest.chat_send_player(player:get_player_name(), minetest.colorize("#FCAD00", message))
+end
+
 dofile(modpath.."/config.lua")
 
 dofile(modpath.."/helpers.lua")

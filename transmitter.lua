@@ -62,8 +62,13 @@ minetest.register_node("ham_radio:transmitter", {
     if (
       fields.quit ~= "true"
       or minetest.is_protected(pos, sender:get_player_name()) 
-      or not ham_radio.validate_frequency(fields.frequency)
     ) then
+      return
+    end
+
+    local is_frequency_valid = ham_radio.validate_frequency(fields.frequency)
+    if is_frequency_valid.result == false then
+      ham_radio.errormsg(sender, is_frequency_valid.message)
       return
     end
 

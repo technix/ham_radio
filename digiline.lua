@@ -32,7 +32,7 @@ ham_radio.digiline_effector = function(pos, _, channel, msg)
 
   elseif msg.command == "frequency" then
     local new_frequency = msg.value
-    if ham_radio.validate_frequency(new_frequency) then
+    if ham_radio.validate_frequency(new_frequency).result then
       meta:set_string("frequency", new_frequency)
       ham_radio.transmitter_update_infotext(meta)
       ham_radio.save_transmitter(pos, meta)  
