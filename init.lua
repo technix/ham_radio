@@ -8,28 +8,6 @@ ham_radio = {
   player_broadcasts = {},
   is_receiver_wielded = {},
   transmitters = {},
-  settings = {
-    broadcast_color = '#607d8b',
-    broadcast_interval = 10, -- seconds
-    hud_pos = { x = 0.5, y = 0.8 },
-    -- radio frequency range
-    frequency = {
-      min = 0,
-      max = 9999999
-    },
-    -- range where only one transmitter is permitted
-    locked_frequency = {
-      min = 100000,
-      max = 9999999
-    },
-    -- sub-range of frequency range
-    beacon_frequency = { 
-      min = 1000000,
-      max = 9999999
-    },
-    digiline_channel = "ham_radio",
-    digiline_broadcast_channel = "ham_radio_broadcast",
-  }
 }
 
 -- preload transmitter data
@@ -54,6 +32,8 @@ function ham_radio.delete_transmitter(pos)
   ham_radio.transmitters[key] = nil -- cache
   mod_storage:set_string(key, '') -- storage
 end
+
+dofile(modpath.."/config.lua")
 
 dofile(modpath.."/helpers.lua")
 dofile(modpath.."/craft.lua")
