@@ -1,11 +1,20 @@
 function ham_radio.validate_frequency(frequency)
+  local transmission_is_allowed = true
   local num_freq = tonumber(frequency)
   local freq = tostring(num_freq)
+  if next(ham_radio.find_transmitters(frequency)) then
+    if num_freq >= ham_radio.settings.locked_frequency.min
+    and num_freq <= ham_radio.settings.locked_frequency.max then
+      -- transmitter is in locked frequency range
+      transmission_is_allowed = false
+    end
+  end
   return freq == frequency
     and num_freq ~= nil
     and num_freq == math.floor(num_freq)
     and num_freq >= ham_radio.settings.frequency.min
     and num_freq <= ham_radio.settings.frequency.max
+    and transmission_is_allowed
 end
 
 function ham_radio.find_transmitters(frequency)

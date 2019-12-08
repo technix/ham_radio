@@ -12,11 +12,18 @@ ham_radio = {
     broadcast_color = '#607d8b',
     broadcast_interval = 10, -- seconds
     hud_pos = { x = 0.5, y = 0.8 },
+    -- radio frequency range
     frequency = {
       min = 0,
       max = 9999999
     },
-    beacon_frequency = { -- sub-range of frequency range
+    -- range where only one transmitter is permitted
+    locked_frequency = {
+      min = 100000,
+      max = 9999999
+    },
+    -- sub-range of frequency range
+    beacon_frequency = { 
       min = 1000000,
       max = 9999999
     },
