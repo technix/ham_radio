@@ -1,6 +1,6 @@
 ham_radio.settings = {
   -- color of RDS messages
-  rds_color = '#607d8b',
+  rds_color = '#4863A0',
   -- interval between RDS messages (seconds)
   rds_interval = 10,
   -- receiver hud position
