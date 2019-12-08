@@ -1,11 +1,11 @@
-function ham_radio.validate_frequency(frequency)
+function ham_radio.validate_frequency(frequency, is_receiver)
   if frequency == "" then
     return true -- empty frequency is allowed to disable transmitter/receiver
   end
   local transmission_is_allowed = true
   local num_freq = tonumber(frequency)
   local freq = tostring(num_freq)
-  if next(ham_radio.find_transmitters(frequency)) then
+  if is_receiver ~= nil and next(ham_radio.find_transmitters(frequency)) then
     if num_freq >= ham_radio.settings.locked_frequency.min
     and num_freq <= ham_radio.settings.locked_frequency.max then
       -- transmitter is in locked frequency range
