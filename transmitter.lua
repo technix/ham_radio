@@ -11,7 +11,7 @@ ham_radio.transmitter_update_infotext = function(meta)
 end
 
 minetest.register_node("ham_radio:transmitter", {
-  description = "Ham Radio Transmitter",
+  description = "Radio Transmitter",
   tiles = {
 	  "ham_radio_transmitter_top.png",
 	  "ham_radio_transmitter_top.png",

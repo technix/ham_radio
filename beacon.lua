@@ -1,5 +1,5 @@
 minetest.register_node("ham_radio:beacon", {
-  description = "Ham Radio Beacon",
+  description = "Radio Beacon",
   tiles = {
 	  "ham_radio_transmitter_top.png",
 	  "ham_radio_transmitter_top.png",

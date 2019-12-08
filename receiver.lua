@@ -1,8 +1,5 @@
--- 		minetest.chat_send_player(user:get_player_name(), "Itemstack"..meta:get_string("frequency").."^"..itemstack:get_name())
-
-
 minetest.register_tool("ham_radio:handheld_receiver", {
-  description = "Ham Radio Handheld Receiver",
+  description = "Handheld Radio Receiver",
   wield_image = "ham_radio_receiver_handheld.png",
   inventory_image = "ham_radio_receiver_handheld.png",
   groups = { disable_repair = 1 },
