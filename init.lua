@@ -33,6 +33,13 @@ function ham_radio.delete_transmitter(pos)
   mod_storage:set_string(key, '') -- storage
 end
 
+function ham_radio.play_tuning_sound(player)
+  minetest.sound_play(
+    {name = "ham_radio_tuning"..math.random(1,5)},
+    {to_player = player:get_player_name()}
+  )
+end
+
 dofile(modpath.."/config.lua")
 
 dofile(modpath.."/helpers.lua")

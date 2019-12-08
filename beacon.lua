@@ -20,8 +20,11 @@ minetest.register_node("ham_radio:beacon", {
   light_source = 3,
   after_place_node = function(pos, placer)
     local meta = minetest.get_meta(pos);
-    local name = placer:get_player_name()
-    meta:set_string('operated_by', name)
+    if minetest.is_player(placer) then
+      local name = placer:get_player_name()
+      meta:set_string('operated_by', name)
+      ham_radio.play_tuning_sound(placer)        
+    end
     meta:set_string("frequency", ham_radio.find_free_frequency(ham_radio.settings.beacon_frequency))
     ham_radio.transmitter_update_infotext(meta)
     ham_radio.save_transmitter(pos, meta)

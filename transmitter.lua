@@ -72,6 +72,7 @@ minetest.register_node("ham_radio:transmitter", {
     meta:set_string("rds_message", fields.rds_message)
     ham_radio.transmitter_update_infotext(meta)
     ham_radio.save_transmitter(pos, meta)
+    ham_radio.play_tuning_sound(sender)
   end,
   can_dig = function(pos,player)
     local meta = minetest.get_meta(pos);

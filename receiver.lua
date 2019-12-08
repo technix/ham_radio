@@ -43,6 +43,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
   local item = player:get_wielded_item()
   local meta = item:get_meta()
   meta:set_string("frequency", fields.frequency)
+  -- play radio sound
+  ham_radio.play_tuning_sound(player)
    -- replace wielded item with new metadata
   player:set_wielded_item(item)
    -- reset rds messages
