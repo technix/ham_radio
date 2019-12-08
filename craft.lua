@@ -18,12 +18,10 @@ if minetest.get_modpath("technic") then
   battery = 'technic:battery'
 end
 
-
 minetest.register_craftitem("ham_radio:circuit", {
   description = "Radio Circuit",
   inventory_image = "ham_radio_circuit.png",
 })
-
 
 minetest.register_craft({
   output = "ham_radio:circuit",
@@ -32,7 +30,6 @@ minetest.register_craft({
     {body, battery, body},
   }
 })
-
 
 minetest.register_craft({
   output = "ham_radio:handheld_receiver",

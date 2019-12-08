@@ -76,7 +76,7 @@ minetest.register_node("ham_radio:transmitter", {
   digiline = {
     receptor = {action = function() end},
     effector = {
-            action = ham_radio.digiline_effector
+      action = ham_radio.digiline_effector
     },
   },
 });

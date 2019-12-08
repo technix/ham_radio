@@ -28,6 +28,7 @@ ham_radio = {
       max = 9999999
     },
     digiline_channel = "ham_radio",
+    digiline_broadcast_channel = "ham_radio_broadcast",
   }
 }
 

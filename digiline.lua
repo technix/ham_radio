@@ -1,11 +1,28 @@
 ham_radio.digiline_effector = function(pos, _, channel, msg)
-  local digiline_channel = ham_radio.settings.digiline_channel -- static channel
+  local command_channel = ham_radio.settings.digiline_channel -- static channel
+  local broadcast_channel = ham_radio.settings.digiline_broadcast_channel
 
-  if type(msg) ~= "table" or channel ~= digiline_channel then
+  if channel ~= command_channel and channel ~= broadcast_channel then
     return
   end
 
   local meta = minetest.get_meta(pos)
+
+  -- broadcast channel - text message
+  if channel == broadcast_channel then
+    if type(msg) == "string" then
+      meta:set_string("broadcast_message", msg)
+      ham_radio.transmitter_update_infotext(meta)
+      ham_radio.save_transmitter(pos, meta)
+    end
+    return
+  end
+
+  -- command channel
+
+  if type(msg) ~= "table" then
+    return
+  end
 
   if msg.command == "get" then
     digilines.receptor_send(pos, digilines.rules.default, digiline_channel, {
