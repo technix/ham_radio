@@ -23,7 +23,7 @@ minetest.register_node("ham_radio:transmitter", {
   groups = {cracky=2,oddly_breakable_by_hand=2},
   sounds = default.node_sound_metal_defaults(),
   paramtype2 = "facedir",
-  light_source = 5,
+  light_source = 3,
   after_place_node = function(pos, placer)
     local meta = minetest.get_meta(pos);
     local name = placer:get_player_name()

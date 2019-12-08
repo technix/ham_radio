@@ -17,7 +17,7 @@ minetest.register_node("ham_radio:beacon", {
     type = "fixed",
     fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
   },
-  light_source = 5,
+  light_source = 3,
   after_place_node = function(pos, placer)
     local meta = minetest.get_meta(pos);
     local name = placer:get_player_name()
