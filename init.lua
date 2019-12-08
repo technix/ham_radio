@@ -5,7 +5,7 @@ ham_radio = rawget(_G, "ham_radio") or {}
 
 ham_radio = {
   playerhuds = {},
-  player_broadcasts = {},
+  player_rds = {},
   is_receiver_wielded = {},
   transmitters = {},
 }
@@ -19,7 +19,7 @@ end
 function ham_radio.save_transmitter(pos, meta)
   local transmitter_properties = {
     frequency = meta:get_string("frequency"),
-    broadcast_message = meta:get_string("broadcast_message"),
+    rds_message = meta:get_string("rds_message"),
     operated_by = meta:get_string("operated_by")
   }
   local key = minetest.pos_to_string(pos, 0)
@@ -41,7 +41,7 @@ dofile(modpath.."/digiline.lua")
 dofile(modpath.."/transmitter.lua")
 dofile(modpath.."/receiver.lua")
 dofile(modpath.."/beacon.lua")
-dofile(modpath.."/broadcast.lua")
+dofile(modpath.."/rds.lua")
 dofile(modpath.."/hud.lua")
 
 -- globals
@@ -56,22 +56,22 @@ minetest.register_on_leaveplayer(function(player)
 end)
 
 local updatetimer = 0
-local broadcasttimer = 0
+local rds_timer = 0
 minetest.register_globalstep(function(dtime)
   updatetimer = updatetimer + dtime
-  broadcasttimer = broadcasttimer + dtime
+  rds_timer = rds_timer + dtime
   if updatetimer > 0.1 then
     local players = minetest.get_connected_players()
     for i=1, #players do
       ham_radio:update_hud_display(players[i])
     end
     updatetimer = 0
-    -- broadcast timer
-    if broadcasttimer > ham_radio.settings.broadcast_interval then
+    -- rds update timer
+    if rds_timer > ham_radio.settings.rds_interval then
       for i=1, #players do
-        ham_radio:update_broadcast(players[i])
+        ham_radio:update_rds(players[i])
       end
-      broadcasttimer = 0
+      rds_timer = 0
     end
   end
 end)

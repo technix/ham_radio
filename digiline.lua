@@ -1,17 +1,17 @@
 ham_radio.digiline_effector = function(pos, _, channel, msg)
   local command_channel = ham_radio.settings.digiline_channel -- static channel
-  local broadcast_channel = ham_radio.settings.digiline_broadcast_channel
+  local rds_channel = ham_radio.settings.digiline_rds_channel
 
-  if channel ~= command_channel and channel ~= broadcast_channel then
+  if channel ~= command_channel and channel ~= rds_channel then
     return
   end
 
   local meta = minetest.get_meta(pos)
 
-  -- broadcast channel - text message
-  if channel == broadcast_channel then
+  -- RDS channel - text message
+  if channel == rds_channel then
     if type(msg) == "string" then
-      meta:set_string("broadcast_message", msg)
+      meta:set_string("rds_message", msg)
       ham_radio.transmitter_update_infotext(meta)
       ham_radio.save_transmitter(pos, meta)
     end
@@ -27,7 +27,7 @@ ham_radio.digiline_effector = function(pos, _, channel, msg)
   if msg.command == "get" then
     digilines.receptor_send(pos, digilines.rules.default, digiline_channel, {
       frequency = meta:get_string("frequency"),
-      broadcast_message = meta:get_string("broadcast_message"),
+      rds_message = meta:get_string("rds_message"),
     })
 
   elseif msg.command == "frequency" then
@@ -39,7 +39,7 @@ ham_radio.digiline_effector = function(pos, _, channel, msg)
     end
 
   elseif msg.command == "rds" or msg.command == "message" or msg.command == "rds_message" then
-    meta:set_string("broadcast_message", msg.value)
+    meta:set_string("rds_message", msg.value)
     ham_radio.transmitter_update_infotext(meta)
     ham_radio.save_transmitter(pos, meta)  
 

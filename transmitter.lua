@@ -1,15 +1,20 @@
 
 ham_radio.transmitter_update_infotext = function(meta)
+  local operated_by = meta:get_string("operated_by")
   local frequency = meta:get_string("frequency")
-  local broadcast_message = meta:get_string("broadcast_message")
+  local rds_message = meta:get_string("rds_message")
   if frequency == "" then
     frequency = "--"
-    broadcast_message = ""
+    rds_message = ""
   end
-  local infotext = {'Frequency: ', frequency}
-  if broadcast_message ~= "" then
-    table.insert(infotext, '\nBroadcast: "')
-    table.insert(infotext, broadcast_message)
+  local infotext = {
+    'Radio Transmitter\n',
+    'Operated by: ', operated_by, '\n',
+    'Frequency: ', frequency
+  }
+  if rds_message ~= "" then
+    table.insert(infotext, '\nRDS message: "')
+    table.insert(infotext, rds_message)
     table.insert(infotext, '"')
   end
   meta:set_string("infotext", table.concat(infotext, ''))
@@ -33,7 +38,7 @@ minetest.register_node("ham_radio:transmitter", {
     local meta = minetest.get_meta(pos);
     local name = placer:get_player_name()
     meta:set_string('operated_by', name)
-    meta:set_string('broadcast_message', "")
+    meta:set_string('rds_message', "")
     meta:set_string("formspec",
       table.concat({
         "size[7,5]",
@@ -43,11 +48,11 @@ minetest.register_node("ham_radio:transmitter", {
         "tooltip[frequency;Integer number ",
           ham_radio.settings.frequency.min,"-",
           ham_radio.settings.frequency.max, "]",
-        "field[0.25,3.5;7,1;broadcast_message;RDS message;${broadcast_message}]",
+        "field[0.25,3.5;7,1;rds_message;RDS message;${rds_message}]",
         "button_exit[2,4.5;3,1;;Done]"
       },'')
     )
-    meta:set_string("infotext", '')
+    ham_radio.transmitter_update_infotext(meta)
   end,
   on_receive_fields = function(pos, formname, fields, sender)
     if not minetest.is_player(sender) then
@@ -64,7 +69,7 @@ minetest.register_node("ham_radio:transmitter", {
 
     local meta = minetest.get_meta(pos)
     meta:set_string("frequency", fields.frequency)
-    meta:set_string("broadcast_message", fields.broadcast_message)
+    meta:set_string("rds_message", fields.rds_message)
     ham_radio.transmitter_update_infotext(meta)
     ham_radio.save_transmitter(pos, meta)
   end,

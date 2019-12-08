@@ -3,7 +3,7 @@ function ham_radio.toggle_hud(player)
   local name = player:get_player_name()
   local item = player:get_wielded_item()
   
-  -- remove hud and broadcasts if user does not wield a receiver
+  -- remove hud and RDS if user does not wield a receiver
   if item:get_name() ~= "ham_radio:handheld_receiver" then
     if ham_radio.is_receiver_wielded[name] then
       for hud_id, hud_handler in pairs(ham_radio.playerhuds[name]) do
@@ -11,7 +11,7 @@ function ham_radio.toggle_hud(player)
       end
       ham_radio.playerhuds[name] = nil
       ham_radio.is_receiver_wielded[name] = false
-      ham_radio.player_broadcasts[name] = nil
+      ham_radio.player_rds[name] = nil
     end
     return false
   end
@@ -44,7 +44,7 @@ function ham_radio.toggle_hud(player)
       number = 0x999999,
       scale= { x = 100, y = 20 },
     }),
-    broadcast = player:hud_add({
+    rds = player:hud_add({
       hud_elem_type = "text",
       text = "",
       position  = hud_pos,
@@ -104,12 +104,12 @@ function ham_radio:update_hud_display(player)
     player:hud_change(self.playerhuds[name].frequency, "number", "0xFCAD00")
   end
 
-  if meta:get_string("broadcast_disabled") == "" then
-    player:hud_change(self.playerhuds[name].broadcast, "text", "RDS ON")
-    player:hud_change(self.playerhuds[name].broadcast, "number", "0xFCAD00")
+  if meta:get_string("rds_disabled") == "" then
+    player:hud_change(self.playerhuds[name].rds, "text", "RDS ON")
+    player:hud_change(self.playerhuds[name].rds, "number", "0xFCAD00")
   else
-    player:hud_change(self.playerhuds[name].broadcast, "text", "RDS off")
-    player:hud_change(self.playerhuds[name].broadcast, "number", "0x999999")
+    player:hud_change(self.playerhuds[name].rds, "text", "RDS off")
+    player:hud_change(self.playerhuds[name].rds, "number", "0x999999")
   end
   
   player:hud_change(

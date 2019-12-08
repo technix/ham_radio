@@ -1,8 +1,8 @@
 ham_radio.settings = {
-  -- color of broadcast messages
-  broadcast_color = '#607d8b',
-  -- interval between broadcasts (seconds)
-  broadcast_interval = 10,
+  -- color of RDS messages
+  rds_color = '#607d8b',
+  -- interval between RDS messages (seconds)
+  rds_interval = 10,
   -- receiver hud position
   hud_pos = { x = 0.5, y = 0.8 },
   -- radio frequency range
@@ -22,5 +22,5 @@ ham_radio.settings = {
   },
   -- digiline config
   digiline_channel = "ham_radio",
-  digiline_broadcast_channel = "ham_radio_rds",
+  digiline_rds_channel = "ham_radio_rds",
 }

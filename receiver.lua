@@ -23,11 +23,11 @@ minetest.register_tool("ham_radio:handheld_receiver", {
   -- right click - RDS on/off
   on_secondary_use = function(itemstack, user, pointed_thing)
     local meta = itemstack:get_meta()
-    local is_broadcast_disabled = meta:get_string("broadcast_disabled")
-    if is_broadcast_disabled == "" then
-      meta:set_string("broadcast_disabled", "true")
+    local is_rds_disabled = meta:get_string("rds_disabled")
+    if is_rds_disabled == "" then
+      meta:set_string("rds_disabled", "true")
     else
-      meta:set_string("broadcast_disabled", "")
+      meta:set_string("rds_disabled", "")
     end
     return itemstack
   end
@@ -45,8 +45,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
   meta:set_string("frequency", fields.frequency)
    -- replace wielded item with new metadata
   player:set_wielded_item(item)
-   -- reset broadcast messages
-  ham_radio.player_broadcasts[player:get_player_name()] = nil
+   -- reset rds messages
+  ham_radio.player_rds[player:get_player_name()] = nil
   return true
 end)
 
