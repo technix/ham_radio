@@ -57,8 +57,9 @@ minetest.register_on_newplayer(ham_radio.toggle_hud)
 minetest.register_on_joinplayer(ham_radio.toggle_hud)
 
 minetest.register_on_leaveplayer(function(player)
+  local name = player:get_player_name()
   ham_radio.is_receiver_wielded[name] = false
-  ham_radio.playerhuds[player:get_player_name()] = nil
+  ham_radio.playerhuds[name] = nil
 end)
 
 local updatetimer = 0
