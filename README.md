@@ -1,5 +1,7 @@
 # Ham Radio
 
+![Ham Radio screenshot](screenshot.png?raw=true)
+
 This mod brings radio transmitters and receivers to the Minetest world.
 
 Dependencies:
