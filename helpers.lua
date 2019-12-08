@@ -18,10 +18,10 @@ function ham_radio.find_transmitters(frequency)
   return transmitter_list
 end
 
-function ham_radio.find_free_frequency()
+function ham_radio.find_free_frequency(range)
   local frequency = -1
   while frequency == -1 do
-    frequency = tostring(math.floor(math.random(ham_radio.settings.frequency.min, ham_radio.settings.frequency.max)));
+    frequency = tostring(math.floor(math.random(range.min, range.max)));
     local are_there_transmitters = ham_radio.find_transmitters(frequency)
     if next(are_there_transmitters) then
       frequency = -1

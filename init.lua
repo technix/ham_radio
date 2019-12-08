@@ -16,6 +16,10 @@ ham_radio = {
       min = 0,
       max = 9999999
     },
+    beacon_frequency = { -- sub-range of frequency range
+      min = 1000000,
+      max = 9999999
+    },
     digiline_channel = "ham_radio",
   }
 }
@@ -48,6 +52,7 @@ dofile(modpath.."/craft.lua")
 dofile(modpath.."/digiline.lua")
 dofile(modpath.."/transmitter.lua")
 dofile(modpath.."/receiver.lua")
+dofile(modpath.."/beacon.lua")
 dofile(modpath.."/broadcast.lua")
 dofile(modpath.."/hud.lua")
 
@@ -82,8 +87,3 @@ minetest.register_globalstep(function(dtime)
     broadcasttimer = 0
   end
 end)
-
--- TODO: craft transmitter
--- TODO: configure transmitter
--- TODO: craft pelengator
--- TODO: set pelengator frequency
