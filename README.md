@@ -36,6 +36,27 @@ When receiver is tuned to a frequency where at least one transmitter is present,
 
 If RDS reception is toggled on, the RDS messages from all transmitters on this frequency are enqueued and will be send one by one as a chat messages to the player with 10 seconds interval. When RDS message queue becomes empty, it refills and starts over again.
 
+## Stationary Receiver
+
+Right click on receiver opens configuration window to set frequency. Receiver displays RDS messages as infotext in the same way as handheld receiver. It does not have signal power meter.
+
+## Digiline
+
+```lua
+-- this channel accepts plain text
+digiline.send('ham_radio_rds', 'new RDS message')   
+
+-- get transmitter info
+digiline.send('ham_radio', { command = 'get' })
+-- returns { frequency = 12345, rds_message = 'text' }
+
+-- set frequency
+digiline.send('ham_radio', { command = 'frequency', value = '12345' })
+
+-- set RDS message
+digiline.send('ham_radio', { command = 'rds_message', value = 'new RDS message' })
+```
+
 ## What's next?
 
 - Place beacons or transmitters anywhere in the world, give frequency to other players and let them search for them
