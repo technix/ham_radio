@@ -6,6 +6,7 @@ ham_radio = rawget(_G, "ham_radio") or {}
 ham_radio = {
   playerhuds = {},
   player_rds = {},
+  receiver_rds = {},
   is_receiver_wielded = {},
   transmitters = {},
 }
@@ -53,6 +54,7 @@ dofile(modpath.."/transmitter.lua")
 dofile(modpath.."/receiver.lua")
 dofile(modpath.."/beacon.lua")
 dofile(modpath.."/rds.lua")
+dofile(modpath.."/receiver_station.lua")
 dofile(modpath.."/hud.lua")
 
 -- globals

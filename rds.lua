@@ -1,4 +1,4 @@
-function ham_radio.get_rds_messages(frequency)
+function ham_radio.get_rds_messages(frequency, is_receiver_station)
   local transmitters = ham_radio.find_transmitters(frequency)
   local rds_messages = {}
   for position, transmitter in pairs(transmitters) do
@@ -10,6 +10,15 @@ function ham_radio.get_rds_messages(frequency)
         ' ] ',
         transmitter.rds_message,
       }, "")
+      if is_receiver_station then
+        message = table.concat({
+          '[ ',
+          transmitter.operated_by,
+          ' ] ',
+          transmitter.rds_message
+        }, "")
+      end
+
       table.insert(rds_messages, message)
     end
   end
