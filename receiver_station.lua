@@ -79,7 +79,7 @@ minetest.register_abm(
   {
     label = "Listen Ham Radion Broadcast",
     nodenames = {"ham_radio:receiver"},
-    interval = 10,
+    interval = 5,
     chance = 1,
     catch_up = false,
     action = function(pos, node)
