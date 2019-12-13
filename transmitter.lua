@@ -13,8 +13,16 @@ ham_radio.transmitter_update_infotext = function(meta)
     'Frequency: ', frequency
   }
   if rds_message ~= "" then
+    local display_message = string.sub(
+      rds_message,
+      utf8.offset(rds_message,1),
+      utf8.offset(rds_message,60+1)-1
+    )
     table.insert(infotext, '\nRDS message: "')
-    table.insert(infotext, rds_message)
+    table.insert(infotext, display_message)
+    if display_message:len() < rds_message:len() then
+      table.insert(infotext, "...")
+    end
     table.insert(infotext, '"')
   end
   meta:set_string("infotext", table.concat(infotext, ''))
@@ -23,12 +31,12 @@ end
 minetest.register_node("ham_radio:transmitter", {
   description = "Radio Transmitter",
   tiles = {
-	  "ham_radio_transmitter_top.png",
-	  "ham_radio_transmitter_top.png",
-	  "ham_radio_transmitter_side.png",
-	  "ham_radio_transmitter_side.png",
-	  "ham_radio_transmitter_side.png",
-	  "ham_radio_transmitter_front.png"
+    "ham_radio_transmitter_top.png",
+    "ham_radio_transmitter_top.png",
+    "ham_radio_transmitter_side.png",
+    "ham_radio_transmitter_side.png",
+    "ham_radio_transmitter_side.png",
+    "ham_radio_transmitter_front.png"
   },
   groups = {cracky=2,oddly_breakable_by_hand=2},
   sounds = default.node_sound_metal_defaults(),
@@ -48,7 +56,7 @@ minetest.register_node("ham_radio:transmitter", {
         "tooltip[frequency;Integer number ",
           ham_radio.settings.frequency.min,"-",
           ham_radio.settings.frequency.max, "]",
-        "field[0.25,3.5;7,1;rds_message;RDS message;${rds_message}]",
+        "textarea[0.25,3.5;7,6;rds_message;RDS message;${rds_message}]",
         "button_exit[2,4.5;3,1;;Done]"
       },'')
     )

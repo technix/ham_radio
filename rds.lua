@@ -3,23 +3,24 @@ function ham_radio.get_rds_messages(frequency, is_receiver_station)
   local rds_messages = {}
   for position, transmitter in pairs(transmitters) do
     if transmitter.rds_message ~= "" and transmitter.rds_message ~= nil then
-      -- construct message
-      local message = table.concat({
-        '[ Radio | ',
-        transmitter.operated_by,
-        ' ] ',
-        transmitter.rds_message,
-      }, "")
-      if is_receiver_station then
-        message = table.concat({
-          '[ ',
+      for rds_message_line in transmitter.rds_message:gmatch("[^\n]+") do
+        -- construct message
+        local message = table.concat({
+          '[ Radio | ',
           transmitter.operated_by,
           ' ] ',
-          transmitter.rds_message
+          rds_message_line,
         }, "")
+        if is_receiver_station then
+          message = table.concat({
+            '[ ',
+            transmitter.operated_by,
+            ' ] ',
+            rds_message_line
+          }, "")
+        end
+        table.insert(rds_messages, message)
       end
-
-      table.insert(rds_messages, message)
     end
   end
   return rds_messages
