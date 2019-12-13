@@ -31,7 +31,7 @@ Beacon is a simplified transmitter. After placement it automatically tunes on a 
 Handheld receiver is a wielded tool.
 
 - Left click opens configuration dialog to set frequency. Empty string turns receiver off.
-- Right click toggles reception of RDS messages.
+- Shift + left click toggles reception of RDS messages.
 
 When receiver is tuned to a frequency where at least one transmitter is present, HUD signal meter bar shows signal power. The signal power depends on distance and direction to the transmitter. 
 

@@ -5,7 +5,18 @@ minetest.register_tool("ham_radio:handheld_receiver", {
   groups = { disable_repair = 1 },
   -- left click - change frequency
   on_use = function(itemstack, user, pointed_thing)
+    local keys = user:get_player_control()
     local meta = itemstack:get_meta()
+    if keys.sneak then
+      -- left click with shift - RDS on/off
+      local is_rds_disabled = meta:get_string("rds_disabled")
+      if is_rds_disabled == "" then
+        meta:set_string("rds_disabled", "true")
+      else
+        meta:set_string("rds_disabled", "")
+      end
+      return itemstack
+    end
     local frequency = meta:get_string("frequency")
     minetest.show_formspec(user:get_player_name(), "ham_radio:configure_handheld_receiver",
       table.concat({
@@ -18,17 +29,6 @@ minetest.register_tool("ham_radio:handheld_receiver", {
         "button_exit[0,3.5;3,1;;Done]"
       },'')
     )
-    return itemstack
-  end,
-  -- right click - RDS on/off
-  on_secondary_use = function(itemstack, user, pointed_thing)
-    local meta = itemstack:get_meta()
-    local is_rds_disabled = meta:get_string("rds_disabled")
-    if is_rds_disabled == "" then
-      meta:set_string("rds_disabled", "true")
-    else
-      meta:set_string("rds_disabled", "")
-    end
     return itemstack
   end
 })
