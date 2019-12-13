@@ -13,16 +13,8 @@ ham_radio.transmitter_update_infotext = function(meta)
     'Frequency: ', frequency
   }
   if rds_message ~= "" then
-    local display_message = string.sub(
-      rds_message,
-      utf8.offset(rds_message,1),
-      utf8.offset(rds_message,60+1)-1
-    )
     table.insert(infotext, '\nRDS message: "')
-    table.insert(infotext, display_message)
-    if display_message:len() < rds_message:len() then
-      table.insert(infotext, "...")
-    end
+    table.insert(infotext, rds_message)
     table.insert(infotext, '"')
   end
   meta:set_string("infotext", table.concat(infotext, ''))
@@ -49,15 +41,15 @@ minetest.register_node("ham_radio:transmitter", {
     meta:set_string('rds_message', "")
     meta:set_string("formspec",
       table.concat({
-        "size[7,5]",
+        "size[7,8]",
         "image[0,0;1,1;ham_radio_transmitter_front.png]",
         "label[1,0;Transmitter operated by: ",minetest.formspec_escape(name),"]",
         "field[0.25,2;7,1;frequency;Frequency;${frequency}]",
         "tooltip[frequency;Integer number ",
           ham_radio.settings.frequency.min,"-",
           ham_radio.settings.frequency.max, "]",
-        "textarea[0.25,3.5;7,6;rds_message;RDS message;${rds_message}]",
-        "button_exit[2,4.5;3,1;;Done]"
+        "textarea[0.25,3.5;7,4;rds_message;RDS message;${rds_message}]",
+        "button_exit[2,7.5;3,1;;Done]"
       },'')
     )
     ham_radio.transmitter_update_infotext(meta)

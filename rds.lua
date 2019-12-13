@@ -19,7 +19,7 @@ function ham_radio.get_rds_messages(frequency, is_receiver_station)
             rds_message_line
           }, "")
         end
-        table.insert(rds_messages, message)
+        table.insert(rds_messages, 1, message)
       end
     end
   end
