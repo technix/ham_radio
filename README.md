@@ -18,6 +18,7 @@ Craft recipes depend of the mods installed.
 Craft a transmitter and place it in the world. Right click on transmitter to open configuration dialog, then set frequency and RDS message.
 - Empty frequency turns transmitter off.
 - Transmitter information is displayed as info text when player points at it.
+- RDS message can be multiline. However, it is transmitted line by line.
 - RDS message and frequency can be set via digiline. Also, you can read transmitter configuration via digiline too.
 
 ## Beacon
@@ -39,22 +40,25 @@ If RDS reception is toggled on, the RDS messages from all transmitters on this f
 ## Stationary Receiver
 
 Right click on receiver opens configuration window to set frequency. Receiver displays RDS messages as infotext in the same way as handheld receiver. It does not have signal power meter.
+- You can operate the receiver in the same way as the transmitter.
 
 ## Digiline
 
 ```lua
--- this channel accepts plain text
-digiline.send('ham_radio_rds', 'new RDS message')   
+-- channel "ham_radio_rds" accepts plain text
+digiline.send('ham_radio_rds', 'new RDS message')
 
 -- get transmitter info
 digiline.send('ham_radio', { command = 'get' })
 -- returns { frequency = 12345, rds_message = 'text' }
 
 -- set frequency
-digiline.send('ham_radio', { command = 'frequency', value = '12345' })
+digiline.send('ham_radio', { command = 'set_frequency', value = '12345' })
+-- returns { update = 'frequency', success = true/false, message = errorMessage }
 
 -- set RDS message
-digiline.send('ham_radio', { command = 'rds_message', value = 'new RDS message' })
+digiline.send('ham_radio', { command = 'set_rds_message', value = 'new RDS message' })
+-- returns { update = 'rds_message', success = true }
 ```
 
 ## What's next?
@@ -74,5 +78,3 @@ Source code: MIT
 Textures: CC BY-SA 3.0
 
 Sounds: cut from "G32-20-Tuning Radio" by craigsmith, CC 0
-
-
