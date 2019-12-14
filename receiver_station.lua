@@ -1,6 +1,6 @@
 ham_radio.receiver_update_infotext = function(meta)
   local rds_message = meta:get_string("rds_message")
-  local infotext = 'Radio Receiver'
+  local infotext = 'Radio receiver'
   if rds_message ~= "" then
     infotext = rds_message
   end
@@ -51,14 +51,23 @@ minetest.register_node("ham_radio:receiver", {
     if (
       fields.quit ~= "true"
       or minetest.is_protected(pos, sender:get_player_name()) 
-      or not ham_radio.validate_frequency(fields.frequency)
     ) then
       return
     end
-
-    local meta = minetest.get_meta(pos)
-    meta:set_string("frequency", fields.frequency)
-    ham_radio.receiver_update_infotext(meta)
+    
+    if fields.frequency ~= nil then
+      local is_frequency_valid = ham_radio.validate_frequency(fields.frequency, true)
+      if is_frequency_valid.result == false then
+        ham_radio.errormsg(sender, is_frequency_valid.message)
+      else
+        local meta = minetest.get_meta(pos)
+        meta:set_string("frequency", fields.frequency)
+        meta:set_string("rds_message", "")
+        ham_radio.reset_receiver(pos)
+        ham_radio.receiver_update_infotext(meta)
+        ham_radio.play_tuning_sound(sender)
+      end
+    end
   end,
   can_dig = function(pos,player)
     local meta = minetest.get_meta(pos);
@@ -74,6 +83,11 @@ minetest.register_node("ham_radio:receiver", {
     },
   },
 });
+
+ham_radio.reset_receiver = function (pos)
+  local poshash = minetest.pos_to_string(pos, 0)
+  ham_radio.receiver_rds[poshash] = nil
+end
 
 minetest.register_abm(
   {
@@ -92,7 +106,8 @@ minetest.register_abm(
       
       local poshash = minetest.pos_to_string(pos, 0)
         
-      if ham_radio.receiver_rds[poshash] == nil then
+      if ham_radio.receiver_rds[poshash] == nil or not next(ham_radio.receiver_rds[poshash]) then
+        -- when all RDS messages are shown, reload them again
         ham_radio.receiver_rds[poshash] = ham_radio.get_rds_messages(frequency, true)
       end
       
@@ -100,11 +115,6 @@ minetest.register_abm(
       if message ~= nil then
         meta:set_string('rds_message', message)
         ham_radio.receiver_update_infotext(meta)
-
-        -- when all RDS messages are shown, reload them again
-        if not next(ham_radio.receiver_rds[poshash]) then    
-          ham_radio.receiver_rds[poshash] = ham_radio.get_rds_messages(frequency, true)
-        end
       end
     end
   }
