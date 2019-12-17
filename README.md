@@ -11,7 +11,7 @@ basic_materials?
 technic?
 digilines?
 ```
-Craft recipes depend of the mods installed. 
+Craft recipes depend of the mods installed.
 
 ## Transmitter
 
@@ -33,14 +33,14 @@ Handheld receiver is a wielded tool.
 - Left click opens configuration dialog to set frequency. Empty string turns receiver off.
 - Shift + left click toggles reception of RDS messages.
 
-When receiver is tuned to a frequency where at least one transmitter is present, HUD signal meter bar shows signal power. The signal power depends on distance and direction to the transmitter. 
+When receiver is tuned to a frequency where at least one transmitter is present, HUD signal meter bar shows signal power. The signal power depends on distance and direction to the transmitter.
 
 If RDS reception is toggled on, the RDS messages from all transmitters on this frequency are enqueued and will be send one by one as a chat messages to the player with 10 seconds interval. When RDS message queue becomes empty, it refills and starts over again.
 
 ## Stationary Receiver
 
 Right click on receiver opens configuration window to set frequency. Receiver displays RDS messages as infotext in the same way as handheld receiver. It does not have signal power meter.
-- You can operate the receiver in the same way as the transmitter.
+- You can operate the receiver via digiline in the same way as the transmitter.
 
 ## Digiline
 
