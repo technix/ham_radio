@@ -61,6 +61,21 @@ digiline.send('ham_radio', { command = 'set_rds_message', value = 'new RDS messa
 -- returns { update = 'rds_message', success = true }
 ```
 
+## Config
+
+See `config.lua` to see current parameters. You can edit this file to change them.
+
+Default parameters:
+ - Frequency range: 0 - 9999999
+ - Locked frequency range: 100000 - 9999999 
+    - Only one transmitter is allowed for the frequency in this range.
+ - Beacon frequency range: 1000000 - 99999999 
+   - Beacon frequency is auto-assigned from this range. 
+   - Please note, this range overlaps with locked frequency range to ensure each beacon receives unique frequency.
+ - RDS interval: 10 seconds
+   - This setting affects handheld receivers only. The interval should be high enough to avoid spamming chat with repeated messages.
+   - RDS interval for stationary receiver is 5 seconds and can't be changed.
+
 ## What's next?
 
 - Place beacons or transmitters anywhere in the world, give frequency to other players and let them search for them
