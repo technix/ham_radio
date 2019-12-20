@@ -69,6 +69,25 @@ minetest.register_node("ham_radio:receiver", {
       end
     end
   end,
+  on_timer = function(pos)
+    local meta = minetest.get_meta(pos)
+    local frequency = meta:get_string("frequency")
+    if frequency == "" then
+      return
+    end
+    local poshash = minetest.pos_to_string(pos, 0)
+    if ham_radio.receiver_rds[poshash] == nil or not next(ham_radio.receiver_rds[poshash]) then
+      -- when all RDS messages are shown, reload them again
+      ham_radio.receiver_rds[poshash] = ham_radio.get_rds_messages(frequency, true)
+    end
+    local message = table.remove(ham_radio.receiver_rds[poshash])
+    if message ~= nil then
+      meta:set_string('rds_message', message)
+      ham_radio.receiver_update_infotext(meta)
+    end
+    -- set timer again
+    minetest.get_node_timer(pos):set(5)
+  end,
   can_dig = function(pos,player)
     local meta = minetest.get_meta(pos);
     local inv = meta:get_inventory()
@@ -82,40 +101,18 @@ minetest.register_node("ham_radio:receiver", {
       action = ham_radio.digiline_effector
     },
   },
-});
+})
 
 ham_radio.reset_receiver = function (pos)
   local poshash = minetest.pos_to_string(pos, 0)
   ham_radio.receiver_rds[poshash] = nil
 end
 
-minetest.register_abm(
-  {
-    label = "Listen Ham Radion Broadcast",
-    nodenames = {"ham_radio:receiver"},
-    interval = 5,
-    chance = 1,
-    catch_up = false,
-    action = function(pos, node)
-      local meta = minetest.get_meta(pos)
-      local frequency = meta:get_string("frequency")
-    
-      if frequency == "" then
-        return
-      end
-      
-      local poshash = minetest.pos_to_string(pos, 0)
-        
-      if ham_radio.receiver_rds[poshash] == nil or not next(ham_radio.receiver_rds[poshash]) then
-        -- when all RDS messages are shown, reload them again
-        ham_radio.receiver_rds[poshash] = ham_radio.get_rds_messages(frequency, true)
-      end
-      
-      local message = table.remove(ham_radio.receiver_rds[poshash])
-      if message ~= nil then
-        meta:set_string('rds_message', message)
-        ham_radio.receiver_update_infotext(meta)
-      end
-    end
-  }
-);
+minetest.register_lbm({
+  label = "Listen Ham Radio Broadcast",
+  name = "ham_radio:receiver_listen_broadcast",
+  nodenames = {"ham_radio:receiver"},
+  action = function(pos, node)
+    minetest.get_node_timer(pos):set(5)
+  end
+})
