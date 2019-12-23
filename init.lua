@@ -15,8 +15,9 @@ function ham_radio.find_transmitters(frequency)
   local transmitter_list = {}
   local all_transmitters = mod_storage:to_table().fields
   for key, transmitter_data in pairs(all_transmitters) do
-    if transmitter_data.frequency == frequency then
-      transmitter_list[key] = transmitter_data
+    local transmitter = minetest.parse_json(transmitter_data)
+    if transmitter.frequency == frequency then
+      transmitter_list[key] = transmitter
     end
   end
   return transmitter_list
