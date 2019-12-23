@@ -11,10 +11,15 @@ ham_radio = {
   transmitters = {},
 }
 
--- preload transmitter data
-local all_transmitters = mod_storage:to_table().fields
-for key, transmitter_data in pairs(all_transmitters) do
-  ham_radio.transmitters[key] = minetest.parse_json(transmitter_data)
+function ham_radio.find_transmitters(frequency)
+  local transmitter_list = {}
+  local all_transmitters = mod_storage:to_table().fields
+  for key, transmitter_data in pairs(all_transmitters) do
+    if transmitter_data.frequency == frequency then
+      transmitter_list[key] = transmitter_data
+    end
+  end
+  return transmitter_list
 end
 
 function ham_radio.save_transmitter(pos, meta)
@@ -24,13 +29,11 @@ function ham_radio.save_transmitter(pos, meta)
     operated_by = meta:get_string("operated_by")
   }
   local key = minetest.pos_to_string(pos, 0)
-  ham_radio.transmitters[key] = transmitter_properties -- cache
   mod_storage:set_string(key, minetest.write_json(transmitter_properties)) -- storage
 end
 
 function ham_radio.delete_transmitter(pos)
   local key = minetest.pos_to_string(pos, 0)
-  ham_radio.transmitters[key] = nil -- cache
   mod_storage:set_string(key, '') -- storage
 end
 

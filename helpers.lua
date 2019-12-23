@@ -30,16 +30,6 @@ function ham_radio.validate_frequency(frequency, is_receiver)
   return { result = result, message = message }
 end
 
-function ham_radio.find_transmitters(frequency)
-  local transmitter_list = {}
-  for key, transmitter in pairs(ham_radio.transmitters) do
-    if transmitter.frequency == frequency then
-      transmitter_list[key] = transmitter
-    end
-  end
-  return transmitter_list
-end
-
 function ham_radio.find_free_frequency(range)
   local frequency = -1
   while frequency == -1 do
