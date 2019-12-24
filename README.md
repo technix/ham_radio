@@ -59,6 +59,14 @@ digiline.send('ham_radio', { command = 'set_frequency', value = '12345' })
 -- set RDS message
 digiline.send('ham_radio', { command = 'set_rds_message', value = 'new RDS message' })
 -- returns { update = 'rds_message', success = true }
+
+-- get receiver info
+digiline.send('ham_radio_receiver', { command = 'get' })
+-- returns { frequency = 12345, rds_message = 'text' }
+
+-- set receiver frequency
+digiline.send('ham_radio_receiver', { command = 'set_frequency', value = '12345' })
+-- returns { update = 'frequency', success = true/false, message = errorMessage }
 ```
 
 ## Config

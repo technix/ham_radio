@@ -28,4 +28,5 @@ ham_radio.settings = {
   -- digiline config
   digiline_channel = "ham_radio",
   digiline_rds_channel = "ham_radio_rds",
+  digiline_receiver_channel = "ham_radio_receiver",
 }

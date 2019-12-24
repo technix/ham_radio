@@ -1,5 +1,6 @@
-ham_radio.digiline_effector = function(pos, _, channel, msg)
-  local command_channel = ham_radio.settings.digiline_channel -- static channel
+ham_radio.digiline_effector_transmitter = function(pos, _, channel, msg)
+   -- static channels for transmitter
+  local command_channel = ham_radio.settings.digiline_channel
   local rds_channel = ham_radio.settings.digiline_rds_channel
 
   if channel ~= command_channel and channel ~= rds_channel then
@@ -53,4 +54,36 @@ ham_radio.digiline_effector = function(pos, _, channel, msg)
       success = true
     })
   end
+end
+
+
+ham_radio.digiline_effector_receiver = function(pos, _, channel, msg)
+  -- static channel for receiver
+  local command_channel = ham_radio.settings.digiline_receiver_channel
+
+  if channel ~= command_channel or type(msg) ~= "table" then
+    return
+  end
+
+  local meta = minetest.get_meta(pos)
+
+  if msg.command == "get" then
+    digilines.receptor_send(pos, digilines.rules.default, command_channel, {
+      frequency = meta:get_string("frequency"),
+      rds_message = meta:get_string("rds_message"),
+    })
+
+  elseif msg.command == "frequency" or msg.command == "set_frequency" then
+    local new_frequency = msg.value
+    local validate = ham_radio.validate_frequency(new_frequency, true)
+    if validate.result then
+      meta:set_string("frequency", new_frequency)
+    end
+    digilines.receptor_send(pos, digilines.rules.default, command_channel, {
+      update = 'frequency',
+      success = validate.result,
+      message = validate.message
+    })
+  end
+
 end
