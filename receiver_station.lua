@@ -99,23 +99,25 @@ minetest.register_abm(
     action = function(pos, node)
       local meta = minetest.get_meta(pos)
       local frequency = meta:get_string("frequency")
-    
+
       if frequency == "" then
         return
       end
-      
+
       local poshash = minetest.pos_to_string(pos, 0)
-        
       if ham_radio.receiver_rds[poshash] == nil or not next(ham_radio.receiver_rds[poshash]) then
         -- when all RDS messages are shown, reload them again
         ham_radio.receiver_rds[poshash] = ham_radio.get_rds_messages(frequency, true)
       end
-      
-      local message = table.remove(ham_radio.receiver_rds[poshash])
-      if message ~= nil then
-        meta:set_string('rds_message', message)
-        ham_radio.receiver_update_infotext(meta)
-      end
+      ham_radio.get_next_rds_message(poshash, meta)
     end
   }
 );
+
+ham_radio.get_next_rds_message = function (poshash, meta)
+  local message = table.remove(ham_radio.receiver_rds[poshash])
+  if message ~= nil then
+    meta:set_string('rds_message', message)
+    ham_radio.receiver_update_infotext(meta)
+  end
+end

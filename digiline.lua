@@ -78,8 +78,10 @@ ham_radio.digiline_effector_receiver = function(pos, _, channel, msg)
     local validate = ham_radio.validate_frequency(new_frequency, true)
     if validate.result then
       meta:set_string("frequency", new_frequency)
-      ham_radio.reset_receiver(pos)
-      ham_radio.receiver_update_infotext(meta)
+      -- load new RDS messages
+      local poshash = minetest.pos_to_string(pos, 0)
+      ham_radio.receiver_rds[poshash] = ham_radio.get_rds_messages(new_frequency, true)
+      ham_radio.get_next_rds_message(poshash, meta)
     end
     digilines.receptor_send(pos, digilines.rules.default, command_channel, {
       update = 'frequency',
