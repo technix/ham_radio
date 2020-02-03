@@ -1,12 +1,12 @@
 minetest.register_node("ham_radio:beacon", {
   description = "Radio Beacon",
   tiles = {
-	  "ham_radio_transmitter_top.png",
-	  "ham_radio_transmitter_top.png",
-	  "ham_radio_transmitter_side.png",
-	  "ham_radio_transmitter_side.png",
-	  "ham_radio_transmitter_side.png",
-	  "ham_radio_beacon_front.png"
+    "ham_radio_transmitter_top.png",
+    "ham_radio_transmitter_top.png",
+    "ham_radio_transmitter_side.png",
+    "ham_radio_transmitter_side.png",
+    "ham_radio_transmitter_side.png",
+    "ham_radio_beacon_front.png"
   },
   groups = {cracky=2,oddly_breakable_by_hand=2},
   sounds = default.node_sound_metal_defaults(),
@@ -23,7 +23,7 @@ minetest.register_node("ham_radio:beacon", {
     if minetest.is_player(placer) then
       local name = placer:get_player_name()
       meta:set_string('operated_by', name)
-      ham_radio.play_tuning_sound(placer)        
+      ham_radio.play_tuning_sound(placer)
     end
     meta:set_string("frequency", ham_radio.find_free_frequency(ham_radio.settings.beacon_frequency))
     ham_radio.transmitter_update_infotext(meta)

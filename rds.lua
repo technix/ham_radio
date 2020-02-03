@@ -58,7 +58,7 @@ function ham_radio:update_rds(player)
     minetest.chat_send_player(player:get_player_name(), minetest.colorize(ham_radio.settings.rds_color, message))
 
     -- when all RDS messages are shown, reload them again
-    if not next(ham_radio.player_rds[name]) then    
+    if not next(ham_radio.player_rds[name]) then
       ham_radio.player_rds[name] = ham_radio.get_rds_messages(frequency)
     end
   end

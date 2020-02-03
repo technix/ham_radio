@@ -10,12 +10,12 @@ end
 minetest.register_node("ham_radio:receiver", {
   description = "Ham Radio Receiver",
   tiles = {
-	  "ham_radio_receiver_top.png",
-	  "ham_radio_receiver_top.png",
-	  "ham_radio_receiver_side.png",
-	  "ham_radio_receiver_side.png",
-	  "ham_radio_receiver_side.png",
-	  "ham_radio_receiver_front.png"
+    "ham_radio_receiver_top.png",
+    "ham_radio_receiver_top.png",
+    "ham_radio_receiver_side.png",
+    "ham_radio_receiver_side.png",
+    "ham_radio_receiver_side.png",
+    "ham_radio_receiver_front.png"
   },
   groups = {cracky=2,oddly_breakable_by_hand=2},
   sounds = default.node_sound_metal_defaults(),
