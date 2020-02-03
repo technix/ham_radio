@@ -69,7 +69,7 @@ minetest.register_node("ham_radio:transmitter", {
     local meta = minetest.get_meta(pos)
     local transmitter_is_updated = false
 
-    if fields.frequency ~= nil then
+    if fields.frequency ~= nil and fields.frequency ~= meta.get_string("frequency") then
       local is_frequency_valid = ham_radio.validate_frequency(fields.frequency)
       if is_frequency_valid.result == false then
         ham_radio.errormsg(sender, is_frequency_valid.message)
@@ -79,7 +79,7 @@ minetest.register_node("ham_radio:transmitter", {
       end
     end
 
-    if fields.rds_message ~= nil then
+    if fields.rds_message ~= nil and fields.rds_message ~= meta.get_string("rds_message") then
       meta:set_string("rds_message", fields.rds_message)
       transmitter_is_updated = true
     end
