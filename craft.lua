@@ -10,7 +10,7 @@ if minetest.get_modpath("basic_materials") then
   body = 'basic_materials:plastic_sheet'
   wires = 'basic_materials:copper_wire'
   antenna = wires
-  battery = 'basic_materials:simple_energy_crystal'
+  battery = 'basic_materials:energy_crystal_simple'
 end
 
 if minetest.get_modpath("technic") then
