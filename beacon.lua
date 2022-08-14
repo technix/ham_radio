@@ -8,6 +8,7 @@ minetest.register_node("ham_radio:beacon", {
     "ham_radio_transmitter_side.png",
     "ham_radio_beacon_front.png"
   },
+  use_textures_alpha = "clip",
   groups = {cracky=2,oddly_breakable_by_hand=2},
   sounds = default.node_sound_metal_defaults(),
   paramtype2 = "facedir",
