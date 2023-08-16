@@ -63,7 +63,7 @@ minetest.register_craft({
   output = "ham_radio:scanner",
   recipe = {
     {antenna, antenna, antenna},
-    {'ham_radio:circuit','ham_radio:circuit', 'ham_radio:circuit'},
+    {'ham_radio:circuit',antenna, 'ham_radio:circuit'},
     {body, body, body}
   }
 })
