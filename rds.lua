@@ -10,9 +10,6 @@ function ham_radio.get_rds_messages(frequency, is_receiver_station)
         }, "")
         if is_receiver_station then
           message = table.concat({
-            '[ ',
-            transmitter.operated_by,
-            ' ] ',
             rds_message_line
           }, "")
         end
