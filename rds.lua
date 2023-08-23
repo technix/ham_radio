@@ -6,9 +6,6 @@ function ham_radio.get_rds_messages(frequency, is_receiver_station)
       for rds_message_line in transmitter.rds_message:gmatch("[^\n]+") do
         -- construct message
         local message = table.concat({
-          '[ Radio | ',
-          transmitter.operated_by,
-          ' ] ',
           rds_message_line,
         }, "")
         if is_receiver_station then
