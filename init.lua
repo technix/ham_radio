@@ -27,7 +27,9 @@ function ham_radio.save_transmitter(pos, meta)
   local transmitter_properties = {
     frequency = meta:get_string("frequency"),
     rds_message = meta:get_string("rds_message"),
-    operated_by = meta:get_string("operated_by")
+    operated_by = meta:get_string("operated_by"),
+    handheld = false,
+    is_beacon = false
   }
   local key = minetest.pos_to_string(pos, 0)
   mod_storage:set_string(key, minetest.write_json(transmitter_properties)) -- storage
@@ -54,11 +56,13 @@ dofile(modpath.."/config.lua")
 dofile(modpath.."/helpers.lua")
 dofile(modpath.."/craft.lua")
 dofile(modpath.."/digiline.lua")
+dofile(modpath.."/transmitter_station.lua")
 dofile(modpath.."/transmitter.lua")
 dofile(modpath.."/receiver.lua")
 dofile(modpath.."/beacon.lua")
 dofile(modpath.."/rds.lua")
 dofile(modpath.."/receiver_station.lua")
+dofile(modpath.."/scanning_station.lua")
 dofile(modpath.."/hud.lua")
 
 -- globals

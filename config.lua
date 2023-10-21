@@ -29,4 +29,5 @@ ham_radio.settings = {
   digiline_channel = "ham_radio",
   digiline_rds_channel = "ham_radio_rds",
   digiline_receiver_channel = "ham_radio_receiver",
+  digiline_scanner_channel = "ham_radio_scanner",
 }
